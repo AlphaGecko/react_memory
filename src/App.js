@@ -11,7 +11,7 @@ class App extends Component {
   }
 
   render() {
-    return (
+  return (
       <div className="memory">
         <GuessCount guesses={0} />
         <Card card="😀" feedback="hidden" onClick={this.handleCardClick} />
@@ -24,8 +24,5 @@ class App extends Component {
     )
   }
 }
-
-
-
 
 export default App
