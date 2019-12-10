@@ -24,7 +24,7 @@ class App extends Component {
   }
 
   handleCardClick(card) {
-    console.log(card, 'clicked')
+    alert(card, 'clicked')
   }
 
   render() {
