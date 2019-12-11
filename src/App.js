@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import shuffle from 'lodash.shuffle'
-
-import './App.css'
-
 import Card from './Card'
 import GuessCount from './GuessCount'
-
 import HallOfFame, { FAKE_HOF } from './HallOfFame'
+import './App.css'
 
 const SIDE = 16
 const SYMBOLS = '😀🎉💖🎩🐶🐱🦄🐬🌍🌛🌞💫🍎🍌🍓🍐🍟🍿'
