@@ -4,12 +4,19 @@ import Card from './Card'
 import GuessCount from './GuessCount'
 import HallOfFame, { FAKE_HOF } from './HallOfFame'
 import './App.css'
+import { thisExpression } from '@babel/types'
 
-const SIDE = 16
+const SIDE = 6
 const SYMBOLS = '😀🎉💖🎩🐶🐱🦄🐬🌍🌛🌞💫🍎🍌🍓🍐🍟🍿'
 
 class App extends Component {
-  cards = this.generateCards()
+
+  state = {
+    cards: this.generateCards(),
+    currentPair: [],
+    guesses: 0,
+    matchedCardIndices: []
+  }
 
   generateCards() {
     const result = []
@@ -22,25 +29,52 @@ class App extends Component {
     return shuffle(result)
   }
 
-  handleCardClick = (card) => {
-    alert(card, this)
+  getFeedbackForCard(index) {
+    const { currentPair, matchedCardIndices } = this.state
+    const indexMatched = matchedCardIndices.includes(index)
+  
+    if (currentPair.length < 2) {
+      return indexMatched || index === currentPair[0] ? 'visible' : 'hidden'
+    }
+  
+    if (currentPair.includes(index)) {
+      return indexMatched ? 'justMatched' : 'justMismatched'
+    }
+  
+    return indexMatched ? 'visible' : 'hidden'
+  }
+
+// Arrow fx for binding
+  handleCardClick = index => {
+    const { currentPair } = this.state
+
+    if (currentPair.length === 2) {
+      return
+    }
+
+    if (currentPair.length === 0) {
+      this.setState({ currentPair: [index] })
+      return
+    }
+
+    this.handleNewPairClosedBy(index)
   }
 
   render() {
-    const won = new Date().getSeconds() % 2 === 0
+    const { cards, guesses, matchedCardIndices } = this.state
+    const won = matchedCardIndices.length === cards.length
     return (
       <div className="memory">
-        <GuessCount guesses={0} />
-        <Card card="😀" feedback="hidden" onClick={this.handleCardClick} />
-        <Card card="🎉" feedback="justMatched" onClick={this.handleCardClick} />
-        <Card
-          card="💖"
-          feedback="justMismatched"
-          onClick={this.handleCardClick}
-        />
-        <Card card="🎩" feedback="visible" onClick={this.handleCardClick} />
-        <Card card="🐶" feedback="hidden" onClick={this.handleCardClick} />
-        <Card card="🐱" feedback="justMatched" onClick={this.handleCardClick} />
+        <GuessCount guesses={guesses} />
+        {cards.map((card, index) => (
+          <Card 
+            card={card}
+            feedback={this.getFeedbackForCard(index)}
+            key={index}
+            index={index}
+            onClick={this.handleCardClick}
+          />
+        ))}
         {won && <HallOfFame entries={FAKE_HOF} />}
       </div>
     )
