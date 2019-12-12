@@ -4,7 +4,7 @@ import Card from './Card'
 import GuessCount from './GuessCount'
 import HallOfFame, { FAKE_HOF } from './HallOfFame'
 import './App.css'
-import { thisExpression } from '@babel/types'
+// import { thisExpression } from '@babel/types'
 
 const SIDE = 6
 const SYMBOLS = '😀🎉💖🎩🐶🐱🦄🐬🌍🌛🌞💫🍎🍌🍓🍐🍟🍿'
