@@ -22,8 +22,8 @@ class App extends Component {
     return shuffle(result)
   }
 
-  handleCardClick(card) {
-    alert(card, 'clicked')
+  handleCardClick = (card) => {
+    alert(card, this)
   }
 
   render() {
